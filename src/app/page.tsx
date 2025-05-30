@@ -1,13 +1,39 @@
 import Image from "next/image";
 import styles from "./page.module.css";
 
-export default function Home() {
+export const dynamic = 'force-static';
+export const revalidate = false; // ISR 無効
+interface Post {
+  userId: number;
+  id: number;
+  title: string;
+  body: string;
+}
+
+export default async function Home() {
+
+  const res = await fetch('https://jsonplaceholder.typicode.com/posts');
+  const posts: Post[] = await res.json();
+
   return (
     <div className={styles.page}>
       <main className={styles.main}>
+        <div style={{maxWidth: 500}}>
+          <p>
+            the below content is fetched from <a href="https://jsonplaceholder.typicode.com/posts" target="_blank">https://jsonplaceholder.typicode.com/posts</a>
+          </p>
+          <ul>
+            {posts.slice(0, 3).map(post => (
+              <li key={post.id}>
+                <h2>{post.title}</h2>
+                <p>{post.body}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
         <Image
           className={styles.logo}
-          src="/next.svg"
+          src="/sub/next.svg"
           alt="Next.js logo"
           width={180}
           height={38}
@@ -29,7 +55,7 @@ export default function Home() {
           >
             <Image
               className={styles.logo}
-              src="/vercel.svg"
+              src="/sub/vercel.svg"
               alt="Vercel logomark"
               width={20}
               height={20}
@@ -54,7 +80,7 @@ export default function Home() {
         >
           <Image
             aria-hidden
-            src="/file.svg"
+            src="/sub/file.svg"
             alt="File icon"
             width={16}
             height={16}
@@ -68,7 +94,7 @@ export default function Home() {
         >
           <Image
             aria-hidden
-            src="/window.svg"
+            src="/sub/window.svg"
             alt="Window icon"
             width={16}
             height={16}
@@ -82,7 +108,7 @@ export default function Home() {
         >
           <Image
             aria-hidden
-            src="/globe.svg"
+            src="/sub/globe.svg"
             alt="Globe icon"
             width={16}
             height={16}
