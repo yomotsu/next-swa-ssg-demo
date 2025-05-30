@@ -1,0 +1,8 @@
+{
+  "routes": [
+    {
+      "route": "/.swa/health.html",
+      "rewrite": "/sub/.swa/health.html"
+    }
+  ]
+}
